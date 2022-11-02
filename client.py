@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import socket
 import os
 from threading import Thread
@@ -18,8 +16,6 @@ def get_ip():
     finally:
         s.close()
     return IP
-
-
 
 def main():
 	try:
@@ -127,14 +123,6 @@ def main():
 			t = Thread(target=listen_for_client, args=(client_sock,))
 			t.daemon = True
 			t.start()
-
-
-
-
-
-
-
-
 
 	yes_or_no(server, client)
 
