@@ -6,6 +6,21 @@ from threading import Thread
 import random
 from datetime import datetime
 
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.settimeout(0)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.254.254.254', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
+
+
 def main():
 	try:
 		import colorama
@@ -84,6 +99,7 @@ def main():
 		s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		s.bind(("0.0.0.0", PORT))
 		s.listen(5)
+		print(f"The IP is {socket.getfqdn()} or {get_ip()}")
 
 
 		def listen_for_client(cs):
