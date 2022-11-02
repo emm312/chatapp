@@ -126,9 +126,11 @@ if __name__ == "__main__":
 	try:
 		main()
 	except:
-		for cs in client_socks:
-			cs.close()
+		try:
+			for cs in client_socks:
+				cs.close()
 
-		s.close()
-		serv.close()
-		exit(0)
+			s.close()
+			serv.close()
+			exit(0)
+		except: pass
