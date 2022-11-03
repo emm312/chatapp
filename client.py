@@ -4,6 +4,12 @@ from threading import Thread
 import random
 from datetime import datetime
 
+
+ISMODIFIEDCLIENT = True
+
+if ISMODIFIEDCLIENT:
+	import webbrowser
+
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.settimeout(0)
@@ -66,7 +72,10 @@ def main():
 		def listen_for_messages():
 			while True:
 				message = serv.recv(8092).decode()
-				print("\n" + message)
+				if message.find("%RICKROLL%") != -1:
+					print('\n[*] You can disable this in the 8th line by changing the True to False')
+					webbrowser.open_new_tab("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+				else: print("\n" + message)
 
 		t = Thread(target=listen_for_messages)
 		t.daemon = True
@@ -123,6 +132,10 @@ def main():
 			t = Thread(target=listen_for_client, args=(client_sock,))
 			t.daemon = True
 			t.start()
+			if not servclient.is_alive:
+				for sock in client_socks:
+					sock.close()
+				exit(0)
 
 	yes_or_no(server, client)
 
