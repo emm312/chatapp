@@ -42,10 +42,8 @@ def main():
 
 	client_colour = random.choice(colors)
 
-
 	PORT = 6969
 	SEPERATOR = "<SEP>"
-
 
 	def yes_or_no(yes, no):
 		ans = input("Would you like to host a room? (y/n) ")
@@ -72,8 +70,8 @@ def main():
 		def listen_for_messages():
 			while True:
 				message = serv.recv(8092).decode()
-				if message.find("%RICKROLL%") != -1:
-					print('\n[*] You can disable this in the 8th line by changing the True to False')
+				if message.find("%RICKROLL%") != -1 and ISMODIFIEDCLIENT:
+					print('\n[*] You can disable this on line 8 by changing the True to False')
 					webbrowser.open_new_tab("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 				else: print("\n" + message)
 
@@ -92,10 +90,8 @@ def main():
 			date_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S') 
 			to_send = f"{client_colour}[{date_now}] {name}{SEPERATOR}{to_send}{Fore.RESET}"
 			
-
 			serv.send(to_send.encode())
 		
-
 	def server():
 		global client_socks
 		client_socks = set()
@@ -104,8 +100,7 @@ def main():
 		s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		s.bind(("0.0.0.0", PORT))
 		s.listen(5)
-		print(f"The IP is {socket.getfqdn()} or {get_ip()}")
-
+		print(f"The IP is { socket.getfqdn() } or { get_ip() }")
 
 		def listen_for_client(cs):
 			while True:
